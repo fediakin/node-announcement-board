@@ -1,0 +1,26 @@
+# Залежності (пакети)
+node_modules/
+jspm_packages/
+
+# Локальна база даних SQLite та її тимчасові файли
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Приватні змінні оточення
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Логи
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Системні файли (Mac/Windows)
+.DS_Store
+Thumbs.db
