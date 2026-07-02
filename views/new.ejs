@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Створити оголошення</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container container-small">
+    <h1>Додати нове оголошення</h1>
+    
+    <form action="/announcements" method="POST" class="form">
+      <div class="form-group">
+        <label>Категорія *</label>
+        <div class="radio-group">
+          <% Object.keys(categoryInfo).forEach(key => { %>
+            <label class="radio-label">
+              <input type="radio" name="category" value="<%= key %>" required <%= data?.category === key ? 'checked' : '' %>>
+              <%= categoryInfo[key].emoji %> <%= categoryInfo[key].label %>
+            </label>
+          <% }) %>
+        </div>
+        <% if (errors.category) { %><span class="error"><%= errors.category %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label>Назва *</label>
+        <input type="text" name="title" placeholder="Коротка назва оголошення" required minlength="5" maxlength="100" value="<%= data?.title || '' %>">
+        <% if (errors.title) { %><span class="error"><%= errors.title %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label>Опис *</label>
+        <textarea name="description" rows="6" placeholder="Детальний опис оголошення..." required minlength="10"><%= data?.description || '' %></textarea>
+        <% if (errors.description) { %><span class="error"><%= errors.description %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label>Ціна (грн) *</label>
+        <input type="number" name="price" min="0" step="0.01" required value="<%= data?.price || '' %>">
+        <% if (errors.price) { %><span class="error"><%= errors.price %></span><% } %>
+      </div>
+
+      <div class="form-group">
+        <label>Контакти *</label>
+        <input type="text" name="contactInfo" placeholder="Email або телефон" required minlength="5" value="<%= data?.contactInfo || '' %>">
+        <% if (errors.contactInfo) { %><span class="error"><%= errors.contactInfo %></span><% } %>
+      </div>
+
+      <div class="actions">
+        <a href="/" class="btn btn-outline">Скасувати</a>
+        <button type="submit" class="btn btn-primary">Опублікувати</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>

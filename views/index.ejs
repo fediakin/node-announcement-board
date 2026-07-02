@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Дошка оголошень</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>Дошка оголошень</h1>
+      <a href="/announcements" class="btn btn-primary">Додати оголошення</a>
+    </header>
+
+    <form class="controls" action="/" method="GET">
+      <input type="text" name="search" placeholder="Шукати оголошення..." value="<%= search || '' %>">
+      <select name="sort">
+        <option value="newest" <%= sort === 'newest' ? 'selected' : '' %>>Новіші спочатку</option>
+        <option value="oldest" <%= sort === 'oldest' ? 'selected' : '' %>>Старіші спочатку</option>
+      </select>
+      <button type="submit" class="btn">Знайти</button>
+    </form>
+
+    <% if (announcements.length === 0) { %>
+      <div class="empty-state">Оголошень не знайдено</div>
+    <% } else { %>
+      <div class="grid">
+        <% announcements.forEach(ann => { %>
+          <div class="card">
+            <div class="card-badge">
+              <%= categoryInfo[ann.category].emoji %> <%= categoryInfo[ann.category].label %>
+            </div>
+            <h3><%= ann.title %></h3>
+            <p class="desc"><%= ann.description.length > 100 ? ann.description.substring(0, 100) + '...' : ann.description %></p>
+            <div class="card-footer">
+              <strong><%= ann.price.toFixed(2) %> грн</strong>
+              <small><%= ann.createdAt.toLocaleDateString('uk-UA') %></small>
+            </div>
+            <a href="/announcements/<%= ann.id %>" class="btn btn-outline" style="display: block; text-align: center; margin-top: 15px;">Детальніше</a>
+          </div>
+        <% }) %>
+      </div>
+    <% } %>
+
+    <% if (totalPages > 1) { %>
+      <div class="pagination">
+        <a href="/?page=<%= pageNum - 1 %>&search=<%= search || '' %>&sort=<%= sort %>" class="btn <%= pageNum === 1 ? 'disabled' : '' %>">Попередня</a>
+        
+        <div class="pages">
+          <% for(let i = 1; i <= totalPages; i++) { %>
+            <a href="/?page=<%= i %>&search=<%= search || '' %>&sort=<%= sort %>" class="<%= pageNum === i ? 'active' : '' %>"><%= i %></a>
+          <% } %>
+        </div>
+
+        <a href="/?page=<%= pageNum + 1 %>&search=<%= search || '' %>&sort=<%= sort %>" class="btn <%= pageNum === totalPages ? 'disabled' : '' %>">Наступна</a>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>
